@@ -1,0 +1,15 @@
+:root {
+  --main-color: #9146ff;
+  --background-color: #090510;
+}
+body {
+  background: var(--background-color);
+}
+.btn{
+    background: var(--main-color);
+    color: white;
+}
+.btn:hover{
+    background: #5602cc;
+    color: white;
+}
