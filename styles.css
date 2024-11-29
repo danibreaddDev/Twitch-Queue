@@ -2,14 +2,35 @@
   --main-color: #9146ff;
   --background-color: #090510;
 }
+
 body {
   background: var(--background-color);
 }
-.btn{
-    background: var(--main-color);
-    color: white;
+
+.btn {
+  background: var(--main-color);
+  color: white;
 }
-.btn:hover{
-    background: #5602cc;
-    color: white;
+
+.btn:hover {
+  background: #5602cc;
+  color: white;
+}
+
+input {
+  padding: 10px;
+  width: 100%;
+  background: none ;
+  color: white;
+  border: 5px solid var(--main-color);
+  border-radius: 5px;
+  transform: scale();
+  scale: 100%;
+  transition-duration: 1s ;
+}
+input:focus{
+  outline: none;
+  transform: scale();
+  scale: 125%;
+  transition-duration: 1s ;
 }
