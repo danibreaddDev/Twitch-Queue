@@ -1,120 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
-<head>
-  <title>Title</title>
-  <!-- Required meta tags -->
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="app.js"></script>
+  </head>
 
-  <!-- Bootstrap CSS v5.2.1 -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-  <link rel="stylesheet" href="styles.css" />
-  <script type="module" src="app.js"></script>
-</head>
+  <body>
+    <header>
+      <!-- place navbar here -->
+      <nav class="navbar navbar-expand-lg" style="background: #9146ff">
+        <div class="container-fluid">
+          <svg
+            role="img"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            width="2em"
+            height="2em"
+            class="ms-2 me-2"
+          >
+            <title>Twitch</title>
+            <path
+              d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"
+            />
+          </svg>
+          <div class="collapse navbar-collapse">
+            <ul class="navbar-nav d-none d-md-flex gap-2">
+              <li class="nav-item">
+                <button class="nav-link text-white btn" aria-current="page">
+                  Your Streamers
+                </button>
+              </li>
+              <li class="nav-item">
+                <button
+                  class="nav-link active text-white btn"
+                  aria-current="page"
+                >
+                  Queue
+                </button>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="d-none d-md-flex flex-row justify-content-center justify-content-sm-end"
+          >
+            <button class="btn btn-warning" id="login">Login</button>
+          </div>
+          <button
+            class="btn btn-warning d-md-none"
+            data-bs-toggle="offcanvas"
+            href="#offcanvasExample"
+            role="button"
+            aria-controls="offcanvasExample"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div
+            class="offcanvas offcanvas-start d-md-none"
+            tabindex="-1"
+            id="offcanvasExample"
+            aria-labelledby="offcanvasExampleLabel"
+            style="background: #9146ff"
+          >
+            <div class="offcanvas-header">
+              <svg
+                role="img"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                width="2em"
+                height="2em"
+               
+              
+                class="ms-2 me-2" >
+                <title>Twitch</title>
+                <path
+                  d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"
+                />
+              </svg>
+              <button
+                type="button"
+                class="btn-close text-reset"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="offcanvas-body d-flex flex-column gap-3">
+              <button
+                class="boton"
+                type="button"
+                id="dropdownMenuButton1"
+                data-bs-toggle="dropdown" > Followed Streamers
+              </button>
 
-<body>
-  <header>
-    <!-- place navbar here -->
-    <nav class="mt-3 me-md-5">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="d-flex flex-row justify-content-center justify-content-sm-end">
-            <button class="btn">Login</button>
+              <button
+                class="boton"
+                type="button"
+                id="dropdownMenuButton2"
+              
+                data-bs-toggle="dropdown" > Queue
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </nav>
-  </header>
-  <main>
-    <!--Main Section-->
-    <div class="container mt-5" id="container-main">
-       <!--Recomendated Streamers Section-->
-      <div class="row">
-        <h1 class="text-center text-white">Recomendated Streamers</h1>
-      </div>
-      <div class="row d-flex justify-content-center">
-        <div class="col-3">
-          <a class="card" href="">
-            <img src="" alt="" srcset="" />
-            <div class="p-2 d-flex justify-content-between">
-              <p>FolagorLives</p>
-            </div>
-          </a>
-        </div>
-        <div class="col-3">
-          <a class="card" href="">
-            <img src="" alt="" srcset="" />
-            <div class="p-2 d-flex justify-content-between">
-              <p>FolagorLives</p>
-            </div>
-          </a>
-        </div>
-        <div class="col-3">
-          <a class="card" href="">
-            <img src="" alt="" srcset="" />
-            <div class="p-2 d-flex justify-content-between">
-              <p>FolagorLives</p>
-            </div>
-          </a>
-        </div>
-        <div class="col-3">
-          <a class="card" href="">
-            <img src="" alt="" srcset="" />
-            <div class="p-2 d-flex justify-content-between">
-              <p>FolagorLives</p>
-            </div>
-          </a>
-        </div>
-      </div>
-      <div class="row mt-5 pt-5">
-        <!--Search Section-->
-        <div class="d-flex flex-row justify-content-center align-items-end gap-2">
-          <svg width="8em" heigth="8em" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" id="Layer_1" x="0" y="0"
-            style="enable-background: new 0 0 2400 2800" version="1.1" viewBox="0 0 2400 2800">
-            <style>
-              .st1 {
-                fill: #9146ff;
-              }
-            </style>
-            <path d="m2200 1300-400 400h-400l-350 350v-350H600V200h1600z" style="fill: #fff" />
-            <g id="Layer_1-2">
+      </nav>
+    </header>
+    <main>
+      <!-- Main Section -->
+      <div class="container mt-5" id="container-main">
+        <div class="row mt-5 pt-5">
+          <!-- Search Section -->
+          <div
+            class="d-flex flex-row justify-content-center align-items-end gap-2"
+          >
+            <svg width="8em" height="8em"
+              xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
+              id="Layer_1" x="0" y="0" style="enable-background: new 0 0 2400
+              2800" version="1.1" viewBox="0 0 2400 2800" >
+              <style>
+                .st1 {
+                  fill: #9146ff;
+                }
+              </style>
               <path
-                d="M500 0 0 500v1800h600v500l500-500h400l900-900V0H500zm1700 1300-400 400h-400l-350 350v-350H600V200h1600v1100z"
-                class="st1" />
-              <path d="M1700 550h200v600h-200zM1150 550h200v600h-200z" class="st1" />
-            </g>
-          </svg>
-          <span class="text-white" style="font-size: 94px;">TwitchInfo</span>
+                d="m2200 1300-400 400h-400l-350 350v-350H600V200h1600z"
+                style="fill: #fff"
+              />
+              <g id="Layer_1-2">
+                <path
+                  d="M500 0 0 500v1800h600v500l500-500h400l900-900V0H500zm1700 1300-400 400h-400l-350 350v-350H600V200h1600v1100z"
+                  class="st1"
+                />
+                <path
+                  d="M1700 550h200v600h-200zM1150 550h200v600h-200z"
+                  class="st1"
+                />
+              </g>
+            </svg>
+            <span class="text-white" style="font-size: 94px">TwitchInfo</span>
+          </div>
         </div>
-      </div>
-      <div class="row mt-2">
-        <div class="input-group">
-          <input type="text" class="" aria-label="Sizing example input"
-            aria-describedby="inputGroup-sizing-lg" placeholder="Search for a streamer..." id="search">
+        <div class="row mt-2">
+          <div class="input-group">
+            <input
+              type="text"
+              class=""
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-lg"
+              placeholder="Search for a streamer..."
+              id="search"
+            />
+          </div>
         </div>
-      </div>
-      <div class="row mt-2">
-        <div class="d-flex flex-row justify-content-center mt-2">
-          <button class="btn" id="btn_search">Search</button>
+        <div class="row mt-2">
+          <div class="d-flex flex-row justify-content-center mt-2">
+            <button class="btn" id="btn_search">Search</button>
+          </div>
         </div>
+        <!-- Recommended Streamers Section -->
+        <div class="row mt-5">
+          <h1 class="text-center text-white">Recommended Streamers</h1>
+        </div>
+        <div
+          class="row d-flex justify-content-center"
+          id="container-recomended"
+        ></div>
       </div>
-    </div>
+
       <!-- Streamer Section -->
-       <div class="mt-5" id="container-streamer" style="display: none;"></div>
-  </main>
-  <footer>
-    <!-- place footer here -->
-  </footer>
-  <!-- Bootstrap JavaScript Libraries -->
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-    crossorigin="anonymous"></script>
+      <div id="container-streamer" style="display: none"></div>
+      <div class="mt-5" id="container-videos" style="display: none"></div>
+    </main>
+    <footer>
+      <!-- place footer here -->
+    </footer>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-    crossorigin="anonymous"></script>
-</body>
-
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>

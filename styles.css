@@ -20,17 +20,31 @@ body {
 input {
   padding: 10px;
   width: 100%;
-  background: none ;
+  background: none;
   color: white;
   border: 5px solid var(--main-color);
   border-radius: 5px;
   transform: scale();
   scale: 100%;
-  transition-duration: 1s ;
+  transition-duration: 1s;
 }
-input:focus{
+
+input:focus {
   outline: none;
   transform: scale();
   scale: 125%;
-  transition-duration: 1s ;
+  transition-duration: 1s;
+}
+
+.boton {
+  font-size: 24px;
+  width: 100%;
+  background: none;
+  border: none;
+}
+
+.boton:hover {
+  color: white;
+  border-radius: 5px;
+  background: #090510;
 }
