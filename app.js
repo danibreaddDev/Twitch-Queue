@@ -1,18 +1,21 @@
-
 import { clientId, clientSecret } from "./keys.js";
-import { getTokenLogin, getValidAuth, redirectToAuthorization } from "./auth_functions.js"; //para funcionalidades del login
+import {
+  getTokenLogin,
+  getValidAuth,
+  redirectToAuthorization,
+} from "./auth_functions.js"; //para funcionalidades del login
 async function getTokenAuth() {
   try {
-    const response = await fetch('https://id.twitch.tv/oauth2/token', {
+    const response = await fetch("https://id.twitch.tv/oauth2/token", {
       method: "POST",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
+        "Content-Type": "application/x-www-form-urlencoded",
       },
       body: new URLSearchParams({
         client_id: clientId,
         client_secret: clientSecret,
-        grant_type: "client_credentials"
-      })
+        grant_type: "client_credentials",
+      }),
     });
     if (!response.ok) {
       throw new Error(response.statusText);
@@ -23,14 +26,14 @@ async function getTokenAuth() {
     console.error("Error al generar el token:", error);
   }
 }
-async function getRecomendedStreams(token) {
+async function getRecomendedStreams() {
   try {
     const response = await fetch(` https://api.twitch.tv/helix/streams`, {
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${token}`,
-        "Client-id": clientId
-      }
+        Authorization: `Bearer ${token}`,
+        "Client-id": clientId,
+      },
     });
     if (!response.ok) {
       throw new Error(response.statusText);
@@ -38,79 +41,187 @@ async function getRecomendedStreams(token) {
     const data = await response.json();
     return data.data;
   } catch (error) {
-    console.error('error', error);
+    console.error("error", error);
   }
 }
-async function getInfoStreamer(token, streamerName) {
+async function getInfoStreamer(streamerName) {
   try {
-    const response = await fetch(`https://api.twitch.tv/helix/users?login=${streamerName}`, {
-      method: "GET",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Client-id": clientId
+    const response = await fetch(
+      `https://api.twitch.tv/helix/users?login=${streamerName}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Client-id": clientId,
+        },
       }
-    });
+    );
     if (!response.ok) {
       throw new Error(response.statusText);
     }
     const data = await response.json();
-    console.log(data)
+    console.log(data);
     const infoUser = {
-      "id": data.data[0].id,
-      "name": data.data[0].display_name,
-      "description": data.data[0].description,
-      "image": data.data[0].profile_image_url
-    }
+      id: data.data[0].id,
+      name: data.data[0].display_name,
+      description: data.data[0].description,
+      image: data.data[0].profile_image_url,
+    };
     return infoUser;
   } catch (error) {
-    console.error('error', error);
+    console.error("error", error);
   }
-
 }
 async function getInfoChannel(idStreamer) {
   try {
-    const response = await fetch(`https://api.twitch.tv/helix/channels?broadcaster_id=${idStreamer}`, {
-      method: "GET",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Client-id": clientId
+    const response = await fetch(
+      `https://api.twitch.tv/helix/channels?broadcaster_id=${idStreamer}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Client-id": clientId,
+        },
       }
-    });
+    );
     if (!response.ok) {
       throw new Error(response.statusText);
     }
     const data = await response.json();
     const infoChannel = {
-      "game_id": data.data[0].game_id,
-      "game_name": data.data[0].game_name,
-      "tags": data.data[0].tags,
-      "title": data.data[0].title,
-    }
+      game_id: data.data[0].game_id,
+      game_name: data.data[0].game_name,
+      tags: data.data[0].tags,
+      title: data.data[0].title,
+    };
     return infoChannel;
   } catch (error) {
-    console.error('error', error);
+    console.error("error", error);
   }
 }
-function showInfoStreamer(user, channel) {
+async function getBestClipsByUser(idStreamer) {
+  try {
+    const response = await fetch(
+      `https://api.twitch.tv/helix/clips?broadcaster_id=${idStreamer}&first=5`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Client-id": clientId,
+        },
+      }
+    );
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    console.error("error", error);
+  }
+}
+async function getigdbId(game_name) {
+  try {
+    const response = await fetch(
+      `https://api.twitch.tv/helix/games?name=${game_name}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Client-id": clientId,
+        },
+      }
+    );
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    const data = await response.json();
+    return data.data[0].igdb_id;
+  } catch (error) {
+    console.error("error", error);
+  }
+}
+async function getImage(id) {
+  //Prerequisites: You need to have an AWS account with permissions to deploy CloudFormation stacks.
+  try {
+    const response = await fetch(`https://api.igdb.com/v4/games/?`, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Client-id": clientId,
+        "Content-Type": "text/plain",
+      },
+      body: JSON.stringify({
+        query: `
+        fields cover.url;
+        where id = ${id};
+    `,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("error", error);
+  }
+}
+function showInfoUser(user) {
+  container_user.innerHTML = `
+   <div class='container-fluid'>
+   <div class='row p-2 p-md-5'>
+   <div class='col-12 d-flex flex-column flex-sm-row justify-content-around align-items-center'>
+    <div class='row w-75'>
+    <div class='col-12 col-md-4 d-flex justify-content-center'>
+    <img src='${user.image}' class='img-fluid rounded'/>
+    </div>
+    <div class='col-12 col-md-8 d-flex justify-content-center align-items-center'>
+    <div class='p-2 d-flex flex-column text-white'>
+    <h2>${user.name}</h2>
+    <p>${user.description}</p>
+     <a href='https://www.twitch.tv/${user.name}'>Twitch</a>
+    </div>
+    </div>
+    </div>
+   </div>
+   </div>
+   </div>
+  `;
+}
+async function showInfoChannel(channel) {
+  console.log(channel);
   let tags = "";
   for (const tag of channel.tags) {
     tags += `<p class='fs-5 text-white' style='background:#9146ff; padding:5px; border-radius:10px;'>${tag}</p>`;
   }
-
-  // Limpiar el contenedor antes de agregar nuevo contenido
-  container_streamer.innerHTML = '';
-
-  // Insertar contenido HTML dinámico
-  container_streamer.innerHTML = `
-   
-  `;
+  container_channel.innerHTML = `
+  <div class='container-fluid'>
+   <div class='row p-2 p-md-5'>
+   <div class='col-12 d-flex flex-column justify-content-center align-items-center'>
+    <div class='row w-75 d-flex flex-column justify-content-center align-items-center '>
+    <div class='ps-md-5 ps-2 col-12 d-flex flex-column justify-content-center'>
+    <h2 class='fs-2 fw-bold text-white'>Streaming</h2>
+    <div class='p-2 d-flex flex-column text-white'>
+    <h3 class='fs-3 fw-light text-white'>${channel.title}</h3>
+    <p>${channel.game_name}</p>
+     <div class='d-flex flex-wrap gap-2'>
+     ${tags}
+     </div>
+    </div>
+    </div>
+    </div>
+   </div>
+   </div>
+   </div>`;
 }
 
 function showRecomendedStreams(streams) {
-let filter_streams = streams.filter((stream) => stream.language == "es");
-console.log(filter_streams);
+  let filter_streams = streams.filter((stream) => stream.language == "es");
+  console.log(filter_streams);
 
-  container_recomended.innerHTML = '';
+  container_recomended.innerHTML = "";
 
   let div_row = null;
   let contador = 0;
@@ -118,21 +229,22 @@ console.log(filter_streams);
   for (const stream of streams) {
     const originalUrl = stream.thumbnail_url;
     const updatedUrl = originalUrl
-      .replace('{width}', '800')
-      .replace('{height}', '500');
+      .replace("{width}", "800")
+      .replace("{height}", "500");
     if (contador === 0) {
-      div_row = document.createElement('div');
-      div_row.className = 'row p-3';
+      div_row = document.createElement("div");
+      div_row.className = "row p-3";
       container_recomended.appendChild(div_row);
     }
     if (contador === 4) {
       contador = 0;
     }
-    let div_col = document.createElement('div');
-    div_col.className = 'col-4 d-flex gap-2 justify-content-center align-items-center p-2';
+    let div_col = document.createElement("div");
+    div_col.className =
+      "col-12 col-md-4 d-flex gap-2 justify-content-center align-items-center p-2";
     div_col.innerHTML = `
       <a class=" h-100 p-2 d-flex flex-column" href='https://www.twitch.tv/${stream.user_name}'>
-        <img src="${updatedUrl}" class="img-fluid" alt="${stream.title}"/>
+        <img src="${updatedUrl}" class="img-fluid rounded" alt="${stream.title}"/>
         <div class="p-2 d-flex justify-content-center">
           <h5 class="">${stream.title}</h5>
         </div>
@@ -140,28 +252,37 @@ console.log(filter_streams);
     `;
     div_row.appendChild(div_col);
     contador++;
-
   }
 }
+function showClips(clips) {
+  console.log(clips);
 
-let container_recomended = document.getElementById('container-recomended');
+  //algo falla
+}
+let container_recomended = document.getElementById("container-recomended");
 const token = await getTokenAuth();
 const streams = await getRecomendedStreams(token);
 console.log(streams);
 
 showRecomendedStreams(streams);
 
-let btn_search = document.getElementById('btn_search');
-btn_search.addEventListener('click', async (e) => {
+let btn_search = document.getElementById("btn_search");
+btn_search.addEventListener("click", async (e) => {
   e.preventDefault();
-  const streamerName = document.getElementById('search').value;
-  const infoUser = await getInfoStreamer(token, streamerName);
+  const streamerName = document.getElementById("search").value;
+  const infoUser = await getInfoStreamer(streamerName);
   const infoChannel = await getInfoChannel(infoUser.id);
-  showInfoStreamer(infoUser, infoChannel);
-  container_main.style.display = 'none';
-  container_streamer.style.display = 'block';
+  const clips = await getBestClipsByUser(infoUser.id);
+  showInfoUser(infoUser);
+  showInfoChannel(infoChannel);
+  showClips(clips);
+  container_main.style.display = "none";
+  container_user.style.display = "block";
+  container_channel.style.display = "block";
+  container_videos.style.display = "block";
 });
 
-let container_streamer = document.getElementById('container-streamer');
-let container_main = document.getElementById('container-main');
-let container_videos = document.getElementById('container-videos');
+let container_user = document.getElementById("container-user");
+let container_channel = document.getElementById("container-channel");
+let container_main = document.getElementById("container-main");
+let container_videos = document.getElementById("container-videos");
