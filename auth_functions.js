@@ -38,10 +38,21 @@ export async function getValidAuth(token) {
     console.error("Error al generar el token:", error);
   }
 }
-export function saveUser() {
+export function saveUser(userInfo) {
   //save the user with queue streamers
-  const user = {
-    streamers: [],
-  };
+  const user = new User("", "", "", []);
   sessionStorage.setItem("userValidated", JSON.stringify(user));
+}
+export function saveInQueue(streamerInfo) {
+  const user = JSON.parse(sessionStorage.getItem("userValidated"));
+  let arr_streamers = user.list_streamers;
+  let streamerExist = arr_streamers.some((item) => item.name === streamerInfo.name);
+  if (!streamerExist) {
+    const streamer = new Streamer();
+    arr_streamers.push(streamer);
+    user.list_streamers = arr_streamers;
+    sessionStorage.setItem("userValidated", JSON.stringify(user));
+    return;
+  }
+  //error or someting
 }
