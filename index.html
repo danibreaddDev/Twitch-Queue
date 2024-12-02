@@ -25,6 +25,15 @@
       <!-- place navbar here -->
       <nav class="navbar navbar-expand-lg" style="background: #9146ff">
         <div class="container-fluid">
+          <button
+            class="btn btn-warning d-md-none"
+            data-bs-toggle="offcanvas"
+            href="#offcanvasExample"
+            role="button"
+            aria-controls="offcanvasExample"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
           <svg
             role="img"
             viewBox="0 0 24 24"
@@ -60,15 +69,7 @@
           >
             <button class="btn" id="login">Login</button>
           </div>
-          <button
-            class="btn btn-warning d-md-none"
-            data-bs-toggle="offcanvas"
-            href="#offcanvasExample"
-            role="button"
-            aria-controls="offcanvasExample"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
+
           <div
             class="offcanvas offcanvas-start d-md-none"
             tabindex="-1"
@@ -97,7 +98,9 @@
                 aria-label="Close"
               ></button>
             </div>
-            <div class="offcanvas-body d-flex flex-column justify-content-between gap-3">
+            <div
+              class="offcanvas-body d-flex flex-column justify-content-between gap-3"
+            >
               <div class="d-flex flex-column">
                 <button
                   class="boton"
@@ -125,15 +128,26 @@
     </header>
     <main>
       <!-- Main Section -->
-      <div class="container mt-5" id="container-main">
+      <div class="container mt-5">
+        <div class="row">
+          <div class="d-flex justify-content-center text-white">
+            <h1 class="fw-bolder">
+              Find, save and enjoy your favourite streamers. Explore their best
+              clips, follow their most epic moments and organise your
+              personalised playlist so you don't miss a thing.
+            </h1>
+          </div>
+        </div>
+      </div>
+      <div class="container" id="container-main">
         <div class="row mt-5 pt-5">
           <!-- Search Section -->
           <div
-            class="d-flex flex-column flex-sm-row justify-content-center align-items-center align-items-sm-end gap-2"
+            class="d-flex flex-column flex-sm-row justify-content-center align-items-center gap-2"
           >
             <svg
-              width="8em"
-              height="8em"
+              width="5em"
+              height="5em"
               xmlns="http://www.w3.org/2000/svg"
               xml:space="preserve"
               id="Layer_1"
@@ -185,7 +199,7 @@
         </div>
         <!-- Recommended Streamers Section -->
         <div class="row mt-5">
-          <h1 class="text-center text-white">Recommended Streamers</h1>
+          <h1 class="fw-medium text-white">Recommended Streamers</h1>
         </div>
         <div
           class="row d-flex justify-content-center"
@@ -195,10 +209,7 @@
 
       <!-- Streamer Section -->
 
-      <div
-        id="container-user"
-        style="background: #0b1620; width: 100vw; display: none"
-      ></div>
+      <div id="container-user" style="background: #0b1620; display: none"></div>
       <div id="container-channel" style="display: none"></div>
 
       <div

@@ -201,7 +201,7 @@ async function showInfoChannel(channel) {
    <div class='row p-2 p-md-5'>
    <div class='col-12 d-flex flex-column justify-content-center align-items-center'>
     <div class='row w-75 d-flex flex-column justify-content-center align-items-center '>
-    <div class='ps-md-5 ps-2 col-12 d-flex flex-column justify-content-center'>
+    <div class='col-12 d-flex flex-column justify-content-center'>
     <h2 class='fs-2 fw-bold text-white'>Streaming</h2>
     <div class='p-2 d-flex flex-column text-white'>
     <h3 class='fs-3 fw-light text-white'>${channel.title}</h3>
@@ -220,13 +220,18 @@ async function showInfoChannel(channel) {
 function showRecomendedStreams(streams) {
   let filter_streams = streams.filter((stream) => stream.language == "es");
   console.log(filter_streams);
+  console.log(streams);
 
   container_recomended.innerHTML = "";
 
   let div_row = null;
   let contador = 0;
+  let str_tag = "";
 
   for (const stream of streams) {
+    for (const tag of stream.tags) {
+      str_tag += `<p class='fs-5 py-2 px-2 text-muted rounded-3' style='background:#9146ff; width:fit-content;'>${tag}</p>`;
+    }
     const originalUrl = stream.thumbnail_url;
     const updatedUrl = originalUrl
       .replace("{width}", "800")
@@ -243,14 +248,24 @@ function showRecomendedStreams(streams) {
     div_col.className =
       "col-12 col-md-4 d-flex gap-2 justify-content-center align-items-center p-2";
     div_col.innerHTML = `
-      <a class=" h-100 p-2 d-flex flex-column" href='https://www.twitch.tv/${stream.user_name}'>
-        <img src="${updatedUrl}" class="img-fluid rounded" alt="${stream.title}"/>
-        <div class="p-2 d-flex justify-content-center">
-          <h5 class="">${stream.title}</h5>
+      <a class="position-relative h-100 p-2 d-flex flex-column stream" href='https://www.twitch.tv/${stream.user_name}'>
+        <img src="${updatedUrl}" class="img-fluid rounded-3" alt="${stream.title}"/>
+        <span class='position-absolute top-0 start-0 px-3 py-2 bg-dark rounded-3' style='width:fit-content;'><span class='pe-1'><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M6 23H3q-.825 0-1.412-.587T1 21v-3h2v3h3zm12 0v-2h3v-3h2v3q0 .825-.587 1.413T21 23zm-6-4.5q-3 0-5.437-1.775T3 12q1.125-2.95 3.563-4.725T12 5.5t5.438 1.775T21 12q-1.125 2.95-3.562 4.725T12 18.5m0-3q1.45 0 2.475-1.025T15.5 12t-1.025-2.475T12 8.5T9.525 9.525T8.5 12t1.025 2.475T12 15.5m0-2q-.625 0-1.062-.437T10.5 12t.438-1.062T12 10.5t1.063.438T13.5 12t-.437 1.063T12 13.5M1 6V3q0-.825.588-1.412T3 1h3v2H3v3zm20 0V3h-3V1h3q.825 0 1.413.588T23 3v3z"/></svg></span>${stream.viewer_count}</span>
+        
+        <div class="p-2 d-flex flex-column justify-content-center gap-2">
+          <h5 class="fw-medium">${stream.title}</h5>
+          <div class='d-flex flex-wrap gap-2 align-items-center'>
+           <h6 class="fw-normal">${stream.user_name}</h6>
+            <p class='px-3 bg-white rounded-3 text-black' style='width:fit-content;'>${stream.language}</p>
+           </div>
+        </div>
+        <div class='p-2 text-white d-flex flex-wrap gap-1'>
+        ${str_tag}
         </div>
       </a>
     `;
     div_row.appendChild(div_col);
+    str_tag = "";
     contador++;
   }
 }
@@ -258,15 +273,14 @@ function showClips(clips) {
   console.log(clips);
 
   container_videos.innerHTML = "";
-
   let div_row_principal = document.createElement("div");
   div_row_principal.className = "row p-2 p-md-5";
-
   let div_col_12 = document.createElement("div");
   div_col_12.className =
-    "col-12 d-flex justify-content-center align-items-center"; 
-
-  let div_row_actual = null; 
+    "col-12 d-flex flex-column justify-content-center align-items-center";
+  div_col_12.innerHTML =
+    "<div class='row w-75'><h2 class='text-white'>Clips</h2></div>";
+  let div_row_actual = null;
   let contador = 0;
 
   for (const clip of clips) {
@@ -277,17 +291,18 @@ function showClips(clips) {
 
     if (contador == 0) {
       div_row_actual = document.createElement("div");
-      div_row_actual.className = "row w-75"; 
+      div_row_actual.className = "row w-75";
       div_col_12.appendChild(div_row_actual);
     }
     if (contador == 3) {
       contador = 0;
     }
     let div_col = document.createElement("div");
-    div_col.className = "col-12 col-md-4 d-flex justify-content-center align-items-center p-2";
+    div_col.className =
+      "col-12 col-md-4 d-flex justify-content-center align-items-center p-2";
 
     div_col.innerHTML = `
-      <a class="h-100 d-flex flex-column" href='https://www.twitch.tv/${clip.user_name}' target="_blank" rel="noopener noreferrer">
+      <a class="h-100 d-flex flex-column stream" href='https://www.twitch.tv/${clip.user_name}' target="_blank" rel="noopener noreferrer">
         <img src="${updatedUrl}" class="img-fluid rounded" alt="${clip.title}" />
         <div class="d-flex justify-content-center">
           <h5>${clip.title}</h5>
@@ -295,7 +310,6 @@ function showClips(clips) {
       </a>
     `;
 
-    
     div_row_actual.appendChild(div_col);
     contador++;
   }

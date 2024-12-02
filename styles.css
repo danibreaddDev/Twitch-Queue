@@ -11,7 +11,7 @@ body {
 }
 .title {
   color: white;
-  font-size: 56px;
+  font-size: 32px;
 }
 .btn {
   background: var(--main-color);
@@ -63,13 +63,29 @@ input:focus {
   width: fit-content;
   color: white;
 }
+[class*="stream"] {
+  text-decoration: none;
+  color: white;
+}
+[class*="stream"] img:hover {
+  transform: scale();
+  scale: 105%;
+  border: 1px solid var(--main-color);
+  transition: 0.3s ease-in-out;
+}
+
 @media (min-width: 577px) {
   .title {
-    font-size: 64px;
+    font-size: 38px;
+  }
+}
+@media (max-width: 993px) {
+  .navbar {
+    width: 100vw;
   }
 }
 @media (min-width: 993px) {
   .title {
-    font-size: 96px;
+    font-size: 40px;
   }
 }
