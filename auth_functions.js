@@ -2,7 +2,7 @@
 import { User } from "./Classes/User.js";
 import { Streamer } from "./Classes/Streamer.js";
 //en el caso de loguerte para funcionalidades
-export function redirectToAuthorization() {
+export function redirectToAuthorization(clientId) {
   const redirectUri = "http://localhost:5500/index.html"; // Asegúrate de que coincida con el registrado en Twitch
   const scope = "user:read:follows"; // Scopes requeridos
 
@@ -38,15 +38,18 @@ export async function getValidAuth(token) {
     console.error("Error al generar el token:", error);
   }
 }
-export function saveUser(userInfo) {
+export function saveUser() {
   //save the user with queue streamers
-  const user = new User("", "", "", []);
+  let userStorage = JSON.parse(localStorage.getItem("userValidated"));
+  const user = new User(userStorage.clientId,userStorage.user_id, userStorage.login, []);
   sessionStorage.setItem("userValidated", JSON.stringify(user));
 }
 export function saveInQueue(streamerInfo) {
   const user = JSON.parse(sessionStorage.getItem("userValidated"));
   let arr_streamers = user.list_streamers;
-  let streamerExist = arr_streamers.some((item) => item.name === streamerInfo.name);
+  let streamerExist = arr_streamers.some(
+    (item) => item.name === streamerInfo.name
+  );
   if (!streamerExist) {
     const streamer = new Streamer();
     arr_streamers.push(streamer);

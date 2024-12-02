@@ -1,34 +1,34 @@
 export class User {
   //fields
-  #token;
+  #client_id;
+  #id;
   #login_name;
-  #profile_image;
   #list_streamers;
 
-  constructor(token, login_name, profile_image,list_streamers) {
-    this.#token = token;
+  constructor(client_id,id, login_name,list_streamers) {
+    this.#client_id = client_id;
+    this.#id = id;
     this.#login_name = login_name;
-    this.#profile_image = profile_image;
     this.#list_streamers = list_streamers;
-    t
+
   }
-  set token(token) {
-    this.#token = token;
+  set client_id(client_id) {
+    this.#client_id = client_id;
   }
-  get token() {
-    return this.token;
+  get client_id() {
+    return this.client_id;
+  }
+  set id(id) {
+    this.#id = id;
+  }
+  get id() {
+    return this.id;
   }
   set login_name(login_name) {
     this.#login_name = login_name;
   }
   get login_name() {
     return this.login_name;
-  }
-  set profile_image(profile_image) {
-    this.#profile_image = profile_image;
-  }
-  get profile_image() {
-    return this.profile_image;
   }
   set list_streamers(list_streamers) {
     this.#list_streamers = list_streamers;
