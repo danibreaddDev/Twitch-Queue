@@ -102,7 +102,7 @@ async function getInfoChannel(idStreamer) {
 async function getBestClipsByUser(idStreamer) {
   try {
     const response = await fetch(
-      `https://api.twitch.tv/helix/clips?broadcaster_id=${idStreamer}&first=5`,
+      `https://api.twitch.tv/helix/clips?broadcaster_id=${idStreamer}&first=6`,
       {
         method: "GET",
         headers: {
@@ -236,7 +236,7 @@ function showRecomendedStreams(streams) {
       div_row.className = "row p-3";
       container_recomended.appendChild(div_row);
     }
-    if (contador === 4) {
+    if (contador === 3) {
       contador = 0;
     }
     let div_col = document.createElement("div");
@@ -257,8 +257,53 @@ function showRecomendedStreams(streams) {
 function showClips(clips) {
   console.log(clips);
 
-  //algo falla
+  container_videos.innerHTML = "";
+
+  let div_row_principal = document.createElement("div");
+  div_row_principal.className = "row p-2 p-md-5";
+
+  let div_col_12 = document.createElement("div");
+  div_col_12.className =
+    "col-12 d-flex justify-content-center align-items-center"; 
+
+  let div_row_actual = null; 
+  let contador = 0;
+
+  for (const clip of clips) {
+    const originalUrl = clip.thumbnail_url;
+    const updatedUrl = originalUrl
+      .replace("{width}", "800")
+      .replace("{height}", "500");
+
+    if (contador == 0) {
+      div_row_actual = document.createElement("div");
+      div_row_actual.className = "row w-75"; 
+      div_col_12.appendChild(div_row_actual);
+    }
+    if (contador == 3) {
+      contador = 0;
+    }
+    let div_col = document.createElement("div");
+    div_col.className = "col-12 col-md-4 d-flex justify-content-center align-items-center p-2";
+
+    div_col.innerHTML = `
+      <a class="h-100 d-flex flex-column" href='https://www.twitch.tv/${clip.user_name}' target="_blank" rel="noopener noreferrer">
+        <img src="${updatedUrl}" class="img-fluid rounded" alt="${clip.title}" />
+        <div class="d-flex justify-content-center">
+          <h5>${clip.title}</h5>
+        </div>
+      </a>
+    `;
+
+    
+    div_row_actual.appendChild(div_col);
+    contador++;
+  }
+
+  div_row_principal.appendChild(div_col_12);
+  container_videos.appendChild(div_row_principal);
 }
+
 let container_recomended = document.getElementById("container-recomended");
 const token = await getTokenAuth();
 const streams = await getRecomendedStreams(token);
