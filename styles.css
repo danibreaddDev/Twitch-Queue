@@ -1,12 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");
 :root {
   --main-color: #9146ff;
   --background-color: #090510;
+  --border-color: #ffc107;
 }
 
 body {
   background: var(--background-color);
+  font-family: "Anton", sans-serif;
 }
-
+.title {
+  color: white;
+  font-size: 56px;
+}
 .btn {
   background: var(--main-color);
   color: white;
@@ -15,6 +21,7 @@ body {
 .btn:hover {
   background: #5602cc;
   color: white;
+  border: 1px solid var(--border-color);
 }
 
 input {
@@ -55,4 +62,14 @@ input:focus {
   border-radius: 5px;
   width: fit-content;
   color: white;
+}
+@media (min-width: 577px) {
+  .title {
+    font-size: 64px;
+  }
+}
+@media (min-width: 993px) {
+  .title {
+    font-size: 96px;
+  }
 }

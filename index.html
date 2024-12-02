@@ -58,7 +58,7 @@
           <div
             class="d-none d-md-flex flex-row justify-content-center justify-content-sm-end"
           >
-            <button class="btn btn-warning" id="login">Login</button>
+            <button class="btn" id="login">Login</button>
           </div>
           <button
             class="btn btn-warning d-md-none"
@@ -97,24 +97,27 @@
                 aria-label="Close"
               ></button>
             </div>
-            <div class="offcanvas-body d-flex flex-column gap-3">
-              <button
-                class="boton"
-                type="button"
-                id="dropdownMenuButton1"
-                data-bs-toggle="dropdown"
-              >
-                Followed Streamers
-              </button>
+            <div class="offcanvas-body d-flex flex-column justify-content-between gap-3">
+              <div class="d-flex flex-column">
+                <button
+                  class="boton"
+                  type="button"
+                  id="dropdownMenuButton1"
+                  data-bs-toggle="dropdown"
+                >
+                  Your Streamers
+                </button>
 
-              <button
-                class="boton"
-                type="button"
-                id="dropdownMenuButton2"
-                data-bs-toggle="dropdown"
-              >
-                Queue
-              </button>
+                <button
+                  class="boton"
+                  type="button"
+                  id="dropdownMenuButton2"
+                  data-bs-toggle="dropdown"
+                >
+                  Queue
+                </button>
+              </div>
+              <button class="boton">Login</button>
             </div>
           </div>
         </div>
@@ -126,7 +129,7 @@
         <div class="row mt-5 pt-5">
           <!-- Search Section -->
           <div
-            class="d-flex flex-row justify-content-center align-items-end gap-2"
+            class="d-flex flex-column flex-sm-row justify-content-center align-items-center align-items-sm-end gap-2"
           >
             <svg
               width="8em"
@@ -160,7 +163,7 @@
                 />
               </g>
             </svg>
-            <span class="text-white" style="font-size: 94px">TwitchInfo</span>
+            <span class="title">TwitchInfo</span>
           </div>
         </div>
         <div class="row mt-2">
@@ -198,7 +201,11 @@
       ></div>
       <div id="container-channel" style="display: none"></div>
 
-      <div class="container-fluid mt-5" id="container-videos" style="display: none"></div>
+      <div
+        class="container-fluid mt-5"
+        id="container-videos"
+        style="display: none"
+      ></div>
     </main>
     <footer>
       <!-- place footer here -->
