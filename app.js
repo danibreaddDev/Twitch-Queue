@@ -101,7 +101,7 @@ async function getInfoChannel(idStreamer) {
     console.error("error", error);
   }
 }
-async function getBestClipsByUser(idStreamer) {
+async function getBestClipsByStreamer(idStreamer) {
   try {
     const response = await fetch(
       `https://api.twitch.tv/helix/clips?broadcaster_id=${idStreamer}&first=6`,
@@ -110,6 +110,28 @@ async function getBestClipsByUser(idStreamer) {
         headers: {
           Authorization: `Bearer ${token}`,
           "Client-id": clientId,
+        },
+      }
+    );
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    console.error("error", error);
+  }
+}
+async function getStreamersByUser() {
+  const userValidated = JSON.parse(sessionStorage.getItem("userValidated"));
+  try {
+    const response = await fetch(
+      `https://api.twitch.tv/helix/streams/followed?user_id=${userValidated.user_id}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          "Client-id": userValidated.client_id,
         },
       }
     );
@@ -192,7 +214,7 @@ function showInfoUser(user) {
    </div>
   `;
 }
-async function showInfoChannel(channel) {
+function showInfoChannel(channel) {
   console.log(channel);
   let tags = "";
   for (const tag of channel.tags) {
@@ -320,7 +342,9 @@ function showClips(clips) {
   div_row_principal.appendChild(div_col_12);
   container_videos.appendChild(div_row_principal);
 }
-
+function showStreamers(followedStreamers) {
+  
+}
 let container_recomended = document.getElementById("container-recomended");
 const token = await getTokenAuth();
 const streams = await getRecomendedStreams(token);
@@ -334,7 +358,7 @@ btn_search.addEventListener("click", async (e) => {
   const streamerName = document.getElementById("search").value;
   const infoUser = await getInfoStreamer(streamerName);
   const infoChannel = await getInfoChannel(infoUser.id);
-  const clips = await getBestClipsByUser(infoUser.id);
+  const clips = await getBestClipsByStreamer(infoUser.id);
   showInfoUser(infoUser);
   showInfoChannel(infoChannel);
   showClips(clips);
@@ -351,6 +375,7 @@ btn_login.addEventListener("click", async (e) => {
   e.preventDefault();
   redirectToAuthorization(clientId);
   const tokenLogin = getTokenLogin();
+  sessionStorage.setItem("token", tokenLogin);
   const validAuth = await getValidAuth(tokenLogin);
   sessionStorage.setItem("userValidated", JSON.stringify(validAuth));
 });
@@ -360,12 +385,8 @@ btn_loginnav.addEventListener("click", async (e) => {
   e.preventDefault();
   redirectToAuthorization(clientId);
   const tokenLogin = getTokenLogin();
-  console.log(tokenLogin);
   const validAuth = await getValidAuth(tokenLogin);
-  sessionStorage.setItem("auth", JSON.stringify(validAuth));
-  const auth = JSON.parse(sessionStorage.getItem("auth"));
-  btn_loginnav.innerText = auth.login;
-  location.href = "index.html";
+  sessionStorage.setItem("userValidated", JSON.stringify(validAuth));
 });
 let auth = "";
 if (sessionStorage.getItem("userValidated") != null) {
@@ -376,6 +397,8 @@ if (sessionStorage.getItem("userValidated") != null) {
 let btn_streamer = document.getElementById("btn_streamers");
 btn_streamer.addEventListener("click", async (e) => {
   e.preventDefault();
+  const streamers = await getStreamersByUser();
+  showStreamers(streamers);
 });
 let btn_streamerNav = document.getElementById("btn_streamersNav");
 btn_streamerNav.addEventListener("click", async (e) => {
@@ -398,7 +421,6 @@ btn_queueNav.addEventListener("click", () => {
     return;
   }
   //mostrar la cola
-  
 });
 //contenedores
 let container_title = document.getElementById("container-title");
