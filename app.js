@@ -124,6 +124,7 @@ async function getBestClipsByStreamer(idStreamer) {
 }
 async function getStreamersByUser() {
   const userValidated = JSON.parse(sessionStorage.getItem("userValidated"));
+
   try {
     const response = await fetch(
       `https://api.twitch.tv/helix/streams/followed?user_id=${userValidated.user_id}`,
@@ -343,7 +344,46 @@ function showClips(clips) {
   container_videos.appendChild(div_row_principal);
 }
 function showStreamers(followedStreamers) {
-  
+  container_followedStreamers.innerHTML = "";
+  let div_row = null;
+  let contador = 0;
+  for (const streamer of followedStreamers) {
+    //imagen
+    const originalUrl = streamer.thumbnail_url;
+    const updatedUrl = originalUrl
+      .replace("{width}", "800")
+      .replace("{height}", "500");
+
+    if (contador == 0) {
+      div_row = document.createElement("div");
+      div_row.className = "row p-2 p-md-5";
+      container_followedStreamers.appendChild(div_row);
+    }
+    if (contador == 3) {
+      contador = 0;
+    }
+    let div_col = document.createElement("div");
+    div_col.className =
+      "col-12 col-md-4 h-100 p-2 d-flex flex-column justify-content-center align-items-center";
+    div_col.innerHTML = `<a class='position-relative p-2 d-flex flex-column stream'>
+    <img src="${updatedUrl}" class="img-fluid rounded-3" alt="${streamer.title}"/>
+    <span class='position-absolute top-0 start-0 px-3 py-2 bg-dark rounded-3' 
+    style='width:fit-content;'><span class='pe-1'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M6 23H3q-.825 0-1.412-.587T1 21v-3h2v3h3zm12 0v-2h3v-3h2v3q0 .825-.587 1.413T21 23zm-6-4.5q-3 0-5.437-1.775T3 12q1.125-2.95 3.563-4.725T12 5.5t5.438 1.775T21 12q-1.125 2.95-3.562 4.725T12 18.5m0-3q1.45 0 2.475-1.025T15.5 12t-1.025-2.475T12 8.5T9.525 9.525T8.5 12t1.025 2.475T12 15.5m0-2q-.625 0-1.062-.437T10.5 12t.438-1.062T12 10.5t1.063.438T13.5 12t-.437 1.063T12 13.5M1 6V3q0-.825.588-1.412T3 1h3v2H3v3zm20 0V3h-3V1h3q.825 0 1.413.588T23 3v3z"/>
+    </svg></span>${streamer.viewer_count}</span>
+    </a>
+     <div class="p-2 d-flex flex-column justify-content-center gap-2">
+          <h5 class="fw-medium text-white">${streamer.title}</h5>
+          <div class='d-flex flex-wrap gap-2 align-items-center'>
+           <h6 class="fw-normal">${streamer.user_name}</h6>
+            <p class='px-3 bg-white rounded-3 text-black' style='width:fit-content;'>${streamer.language}</p>
+           </div>
+            <button class='btn align-self-center' style='width:fit-content;'>Add to Queue</button>
+        </div>`;
+    div_row.appendChild(div_col);
+    contador++;
+  }
 }
 let container_recomended = document.getElementById("container-recomended");
 const token = await getTokenAuth();
@@ -398,7 +438,11 @@ let btn_streamer = document.getElementById("btn_streamers");
 btn_streamer.addEventListener("click", async (e) => {
   e.preventDefault();
   const streamers = await getStreamersByUser();
+  console.log(streamers);
   showStreamers(streamers);
+  container_main.style.display = "none";
+  container_title.style.display = "none";
+  container_followedStreamers.style.display = "block";
 });
 let btn_streamerNav = document.getElementById("btn_streamersNav");
 btn_streamerNav.addEventListener("click", async (e) => {
@@ -428,3 +472,6 @@ let container_user = document.getElementById("container-user");
 let container_channel = document.getElementById("container-channel");
 let container_main = document.getElementById("container-main");
 let container_videos = document.getElementById("container-videos");
+let container_followedStreamers = document.getElementById(
+  "container-followedStreamers"
+);
