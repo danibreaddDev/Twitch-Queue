@@ -41,20 +41,24 @@ export async function getValidAuth(token) {
 export function saveUser() {
   //save the user with queue streamers
   let userStorage = JSON.parse(localStorage.getItem("userValidated"));
-  const user = new User(userStorage.clientId,userStorage.user_id, userStorage.login, []);
+  const user = new User(
+    userStorage.clientId,
+    userStorage.user_id,
+    userStorage.login,
+    []
+  );
   sessionStorage.setItem("userValidated", JSON.stringify(user));
 }
 export function saveInQueue(streamerInfo) {
-  const user = JSON.parse(sessionStorage.getItem("userValidated"));
-  let arr_streamers = user.list_streamers;
-  let streamerExist = arr_streamers.some(
-    (item) => item.name === streamerInfo.name
-  );
+  let queue = JSON.parse(sessionStorage.getItem("StreamersQueue"));
+  if (queue == null) {
+    queue = [];
+    sessionStorage.setItem("StreamersQueue", JSON.stringify(queue));
+  }
+  let streamerExist = queue.some((item) => item.id === streamerInfo.id);
   if (!streamerExist) {
-    const streamer = new Streamer();
-    arr_streamers.push(streamer);
-    user.list_streamers = arr_streamers;
-    sessionStorage.setItem("userValidated", JSON.stringify(user));
+    queue.push(streamerInfo);
+    sessionStorage.setItem("StreamersQueue", JSON.stringify(queue));
     return;
   }
   //error or someting

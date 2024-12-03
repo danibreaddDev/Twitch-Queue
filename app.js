@@ -381,6 +381,10 @@ function showStreamers(followedStreamers) {
            </div>
             <button class='btn align-self-center' style='width:fit-content;'>Add to Queue</button>
         </div>`;
+    const button = div_col.querySelector("button");
+    button.addEventListener("click", () => {      
+      saveInQueue(streamer);
+    });
     div_row.appendChild(div_col);
     contador++;
   }
