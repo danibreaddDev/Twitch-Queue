@@ -1,6 +1,4 @@
 //FUNCIONALIDADES PARA HACERSE CON EL LOGIN
-import { User } from "./Classes/User.js";
-import { Streamer } from "./Classes/Streamer.js";
 //en el caso de loguerte para funcionalidades
 export function redirectToAuthorization(clientId) {
   const redirectUri = "http://localhost:5500/index.html"; // Asegúrate de que coincida con el registrado en Twitch
@@ -15,10 +13,10 @@ export function getTokenLogin() {
   const accessToken = hashParams.get("access_token");
   if (accessToken) {
     console.log("Token de usuario obtenido:", accessToken);
+    window.location.hash = "";
     return accessToken;
   } else {
-    console.error("No se encontró el token de acceso en la URL.");
-    return null;
+    return "";
   }
 }
 export async function getValidAuth(token) {
@@ -37,17 +35,6 @@ export async function getValidAuth(token) {
   } catch (error) {
     console.error("Error al generar el token:", error);
   }
-}
-export function saveUser() {
-  //save the user with queue streamers
-  let userStorage = JSON.parse(localStorage.getItem("userValidated"));
-  const user = new User(
-    userStorage.clientId,
-    userStorage.user_id,
-    userStorage.login,
-    []
-  );
-  sessionStorage.setItem("userValidated", JSON.stringify(user));
 }
 export function saveInQueue(streamerInfo) {
   let queue = JSON.parse(sessionStorage.getItem("StreamersQueue"));

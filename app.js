@@ -3,7 +3,6 @@ import {
   getTokenLogin,
   getValidAuth,
   redirectToAuthorization,
-  saveUser,
   saveInQueue,
 } from "./auth_functions.js"; //para funcionalidades del login
 async function getTokenAuth() {
@@ -145,54 +144,6 @@ async function getStreamersByUser() {
     console.error("error", error);
   }
 }
-async function getigdbId(game_name) {
-  try {
-    const response = await fetch(
-      `https://api.twitch.tv/helix/games?name=${game_name}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Client-id": clientId,
-        },
-      }
-    );
-    if (!response.ok) {
-      throw new Error(response.statusText);
-    }
-    const data = await response.json();
-    return data.data[0].igdb_id;
-  } catch (error) {
-    console.error("error", error);
-  }
-}
-async function getImage(id) {
-  //Prerequisites: You need to have an AWS account with permissions to deploy CloudFormation stacks.
-  try {
-    const response = await fetch(`https://api.igdb.com/v4/games/?`, {
-      method: "POST",
-      mode: "no-cors",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Client-id": clientId,
-        "Content-Type": "text/plain",
-      },
-      body: JSON.stringify({
-        query: `
-        fields cover.url;
-        where id = ${id};
-    `,
-      }),
-    });
-    if (!response.ok) {
-      throw new Error(response.statusText);
-    }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("error", error);
-  }
-}
 function showInfoUser(user) {
   container_user.innerHTML = `
    <div class='container-fluid'>
@@ -241,7 +192,6 @@ function showInfoChannel(channel) {
    </div>
    </div>`;
 }
-
 function showRecomendedStreams(streams) {
   let filter_streams = streams.filter((stream) => stream.language == "es");
   console.log(filter_streams);
@@ -344,7 +294,8 @@ function showClips(clips) {
   container_videos.appendChild(div_row_principal);
 }
 function showStreamers(followedStreamers) {
-  container_followedStreamers.innerHTML = "";
+  container_followedStreamers.innerHTML =
+    "<h1 class='text-white fw-medium text-center mt-5 '>Followed Streamers</h1>";
 
   let div_row_principal = document.createElement("div");
   div_row_principal.className = "row p-2 p-md-5";
@@ -411,7 +362,8 @@ function showStreamers(followedStreamers) {
 }
 function showQueue() {
   const queueStorage = JSON.parse(sessionStorage.getItem("StreamersQueue"));
-  container_queue.innerHTML = "";
+  container_queue.innerHTML =
+    "<h1 class='text-white fw-medium text-center mt-5'>QUEUE</h1>";
 
   let div_row_principal = document.createElement("div");
   div_row_principal.className = "row p-2 p-md-5";
@@ -425,13 +377,11 @@ function showQueue() {
   let contador = 0;
 
   for (const streamer of queueStorage) {
-    
     // Actualizar la URL de la imagen
     const originalUrl = streamer.thumbnail_url;
     const updatedUrl = originalUrl
       .replace("{width}", "800")
       .replace("{height}", "500");
-      
 
     if (contador === 0) {
       div_row = document.createElement("div");
@@ -493,17 +443,24 @@ btn_search.addEventListener("click", async (e) => {
   container_channel.style.display = "block";
   container_videos.style.display = "block";
 });
+
 let btn_login = document.getElementById("login");
 btn_login.addEventListener("click", async (e) => {
   console.log("hola");
-
   e.preventDefault();
   redirectToAuthorization(clientId);
-  const tokenLogin = getTokenLogin();
-  sessionStorage.setItem("token", tokenLogin);
-  const validAuth = await getValidAuth(tokenLogin);
-  sessionStorage.setItem("userValidated", JSON.stringify(validAuth));
 });
+const tokenLogin = getTokenLogin();
+console.log(tokenLogin);
+
+if (tokenLogin !== "") {
+  sessionStorage.setItem("token", tokenLogin);
+}
+if (sessionStorage.getItem("token") != null) {
+  const validAuth = await getValidAuth(sessionStorage.getItem("token"));
+  sessionStorage.setItem("userValidated", JSON.stringify(validAuth));
+}
+
 let btn_loginnav = document.getElementById("loginNav");
 
 btn_loginnav.addEventListener("click", async (e) => {
@@ -535,11 +492,13 @@ btn_queue.addEventListener("click", () => {
     console.log("esta vacio");
     return;
   }
-  
+
   //mostrar la cola
   showQueue();
   container_main.style.display = "none";
   container_title.style.display = "none";
+  container_followedStreamers.style.display = "none";
+  
   container_queue.style.display = "block";
 });
 let btn_queueNav = document.getElementById("btn_queueNav");
