@@ -1,7 +1,7 @@
 //FUNCIONALIDADES PARA HACERSE CON EL LOGIN
 //en el caso de loguerte para funcionalidades
 export function redirectToAuthorization(clientId) {
-  const redirectUri = "http://localhost:5500/index.html"; // Asegúrate de que coincida con el registrado en Twitch
+  const redirectUri = "https://twitch-queue.vercel.app/"; // Asegúrate de que coincida con el registrado en Twitch
   const scope = "user:read:follows"; // Scopes requeridos
 
   const authUrl = `https://id.twitch.tv/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token&scope=${scope}`;
@@ -13,7 +13,7 @@ export function getTokenLogin() {
   const accessToken = hashParams.get("access_token");
   if (accessToken) {
     console.log("Token de usuario obtenido:", accessToken);
-    window.location.hash = "https://twitch-queue.vercel.app/";
+    window.location.hash = "";
     return accessToken;
   } else {
     return "";
