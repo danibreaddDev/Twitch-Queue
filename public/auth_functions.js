@@ -1,7 +1,7 @@
 //FUNCIONALIDADES PARA HACERSE CON EL LOGIN
 //en el caso de loguerte para funcionalidades
 export function redirectToAuthorization(clientId) {
-  const redirectUri = "https://twitch-queue.vercel.app/"; // Asegúrate de que coincida con el registrado en Twitch
+  const redirectUri = "https://twitch-queue.vercel.app"; // Asegúrate de que coincida con el registrado en Twitch
   const scope = "user:read:follows"; // Scopes requeridos
 
   const authUrl = `https://id.twitch.tv/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token&scope=${scope}`;
