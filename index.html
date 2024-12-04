@@ -23,100 +23,107 @@
   <body>
     <header>
       <!-- place navbar here -->
-      <nav class="navbar navbar-expand-lg" style="background: #9146ff;">
-        <div class="container-fluid vw-100 d-flex flex-row align-items-center justify-content-between">
-            <!-- Botón para offcanvas -->
-            <button
-                class="btn btn-warning d-md-none"
-                data-bs-toggle="offcanvas"
-                href="#offcanvasExample"
-                role="button"
-                aria-controls="offcanvasExample"
-                id="buttonnav"
-            >
-                <span class="navbar-toggler-icon"></span>
+      <nav class="navbar navbar-expand-lg" style="background: #9146ff">
+        <div
+          class="container-fluid vw-100 d-flex flex-row align-items-center justify-content-between"
+        >
+          <!-- Botón para offcanvas -->
+          <button
+            class="btn btn-warning d-md-none"
+            data-bs-toggle="offcanvas"
+            href="#offcanvasExample"
+            role="button"
+            aria-controls="offcanvasExample"
+            id="buttonnav"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Logo de Twitch -->
+          <svg
+            role="img"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            width="2em"
+            height="2em"
+            class="ms-2"
+          >
+            <title>Twitch</title>
+            <path
+              d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"
+            />
+          </svg>
+
+          <!-- Menú principal -->
+          <div class="d-none d-md-flex flex-row align-items-center gap-2">
+            <button class="btn" aria-current="page" id="btn_streamers">
+              Your Streamers
             </button>
-    
-            <!-- Logo de Twitch -->
-            <svg
+            <button class="btn" aria-current="page" id="btn_queue">
+              Queue
+            </button>
+          </div>
+
+          <!-- Botón de Login -->
+          <div class="d-none d-md-flex align-items-center">
+            <button class="btn" id="login">Login</button>
+          </div>
+
+          <!-- Menú offcanvas para dispositivos pequeños -->
+          <div
+            class="offcanvas offcanvas-start d-md-none"
+            tabindex="-1"
+            id="offcanvasExample"
+            aria-labelledby="offcanvasExampleLabel"
+            style="background: #9146ff"
+          >
+            <div class="offcanvas-header">
+              <svg
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
                 width="2em"
                 height="2em"
-                class="ms-2"
-            >
+                class="ms-2 me-2"
+              >
                 <title>Twitch</title>
                 <path
-                    d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"
+                  d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"
                 />
-            </svg>
-    
-            <!-- Menú principal -->
-            <div class="d-none d-md-flex flex-row align-items-center gap-2">
-                <button class="btn" aria-current="page" id="btn_streamers">Your Streamers</button>
-                <button class="btn" aria-current="page" id="btn_queue">Queue</button>
+              </svg>
+              <button
+                type="button"
+                class="btn-close text-reset"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"
+              ></button>
             </div>
-    
-            <!-- Botón de Login -->
-            <div class="d-none d-md-flex align-items-center">
-                <button class="btn" id="login">Login</button>
-            </div>
-    
-            <!-- Menú offcanvas para dispositivos pequeños -->
             <div
-                class="offcanvas offcanvas-start d-md-none"
-                tabindex="-1"
-                id="offcanvasExample"
-                aria-labelledby="offcanvasExampleLabel"
-                style="background: #9146ff"
+              class="offcanvas-body d-flex flex-column justify-content-between gap-3"
             >
-                <div class="offcanvas-header">
-                    <svg
-                        role="img"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="2em"
-                        height="2em"
-                        class="ms-2 me-2"
-                    >
-                        <title>Twitch</title>
-                        <path
-                            d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"
-                        />
-                    </svg>
-                    <button
-                        type="button"
-                        class="btn-close text-reset"
-                        data-bs-dismiss="offcanvas"
-                        aria-label="Close"
-                    ></button>
-                </div>
-                <div class="offcanvas-body d-flex flex-column justify-content-between gap-3">
-                    <div class="d-flex flex-column">
-                        <button
-                            class="boton"
-                            type="button"
-                            id="btn_streamersNav"
-                            data-bs-toggle="dropdown"
-                        >
-                            Your Streamers
-                        </button>
-                        <button
-                            class="boton"
-                            type="button"
-                            id="btn_queueNav"
-                            data-bs-toggle="dropdown"
-                        >
-                            Queue
-                        </button>
-                    </div>
-                    <button class="boton" type="button" id="loginNav">Login</button>
-                </div>
+              <div class="d-flex flex-column">
+                <button
+                  class="boton"
+                  type="button"
+                  id="btn_streamersNav"
+                  data-bs-toggle="dropdown"
+                >
+                  Your Streamers
+                </button>
+                <button
+                  class="boton"
+                  type="button"
+                  id="btn_queueNav"
+                  data-bs-toggle="dropdown"
+                >
+                  Queue
+                </button>
+              </div>
+              <button class="boton" type="button" id="loginNav">Login</button>
             </div>
+          </div>
         </div>
-    </nav>
-    
+      </nav>
     </header>
     <main>
       <!-- Main Section -->
@@ -210,10 +217,17 @@
         style="display: none"
       ></div>
       <!--followed Streamers Section-->
-      <div class="container-fluid" id="container-followedStreamers" style="display: none;"></div>
+      <div
+        class="container-fluid"
+        id="container-followedStreamers"
+        style="display: none"
+      ></div>
       <!--Queue Section-->
-      <div class="container-fluid" id="container-queue" style="display: none;"></div>
-
+      <div
+        class="container-fluid"
+        id="container-queue"
+        style="display: none"
+      ></div>
     </main>
     <footer>
       <!-- place footer here -->

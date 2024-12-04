@@ -346,35 +346,34 @@ function showClips(clips) {
 function showStreamers(followedStreamers) {
   container_followedStreamers.innerHTML = "";
 
-// Crear el contenedor principal
-let div_row_principal = document.createElement("div");
-div_row_principal.className = "row p-2 p-md-5";
+  let div_row_principal = document.createElement("div");
+  div_row_principal.className = "row p-2 p-md-5";
 
-// Crear la columna que contendrá todos los rows
-let div_col_12 = document.createElement("div");
-div_col_12.className = "h-100 col-12 d-flex flex-column justify-content-center align-items-center";
-div_row_principal.appendChild(div_col_12);
+  let div_col_12 = document.createElement("div");
+  div_col_12.className =
+    "h-100 col-12 d-flex flex-column justify-content-center align-items-center";
+  div_row_principal.appendChild(div_col_12);
 
-let div_row = null;
-let contador = 0;
+  let div_row = null;
+  let contador = 0;
 
-// Iterar sobre los streamers seguidos
-for (const streamer of followedStreamers) {
-  // Actualizar la URL de la imagen
-  const originalUrl = streamer.thumbnail_url;
-  const updatedUrl = originalUrl.replace("{width}", "800").replace("{height}", "500");
+  for (const streamer of followedStreamers) {
+    // Actualizar la URL de la imagen
+    const originalUrl = streamer.thumbnail_url;
+    const updatedUrl = originalUrl
+      .replace("{width}", "800")
+      .replace("{height}", "500");
 
-  // Crear un nuevo `row w-75` cada 3 iteraciones
-  if (contador === 0) {
-    div_row = document.createElement("div");
-    div_row.className = "row w-75 p-2 p-md-5";
-    div_col_12.appendChild(div_row);
-  }
+    if (contador === 0) {
+      div_row = document.createElement("div");
+      div_row.className = "row w-75 p-2 p-md-5";
+      div_col_12.appendChild(div_row);
+    }
 
-  // Crear la columna para cada streamer
-  let div_col = document.createElement("div");
-  div_col.className = "h-100 col-12 col-md-4 p-2 d-flex flex-column justify-content-center align-items-center";
-  div_col.innerHTML = `
+    let div_col = document.createElement("div");
+    div_col.className =
+      "h-100 col-12 col-md-4 p-2 d-flex flex-column justify-content-center align-items-center";
+    div_col.innerHTML = `
     <a class='position-relative p-2 d-flex flex-column stream'>
       <img src="${updatedUrl}" class="img-fluid rounded-3" alt="${streamer.title}" />
       <span class='position-absolute top-0 start-0 px-3 py-2 bg-dark rounded-3' style='width:fit-content;'>
@@ -394,27 +393,83 @@ for (const streamer of followedStreamers) {
         </div>
      
     </div>`;
-  
-  // Agregar evento al botón
-  const button = div_col.querySelector("button");
-  button.addEventListener("click", () => {
-    saveInQueue(streamer);
-  });
 
-  // Agregar la columna al `row`
-  div_row.appendChild(div_col);
+    const button = div_col.querySelector("button");
+    button.addEventListener("click", () => {
+      saveInQueue(streamer);
+    });
 
-  // Incrementar el contador y reiniciarlo si es necesario
-  contador++;
-  if (contador === 3) {
-    contador = 0;
+    div_row.appendChild(div_col);
+
+    contador++;
+    if (contador === 3) {
+      contador = 0;
+    }
+  }
+
+  container_followedStreamers.append(div_row_principal);
+}
+function showQueue() {
+  const queueStorage = JSON.parse(sessionStorage.getItem("StreamersQueue"));
+  container_queue.innerHTML = "";
+
+  let div_row_principal = document.createElement("div");
+  div_row_principal.className = "row p-2 p-md-5";
+
+  let div_col_12 = document.createElement("div");
+  div_col_12.className =
+    "h-100 col-12 d-flex flex-column justify-content-center align-items-center";
+  div_row_principal.appendChild(div_col_12);
+
+  let div_row = null;
+  let contador = 0;
+
+  for (const streamer of queueStorage) {
+    
+    // Actualizar la URL de la imagen
+    const originalUrl = streamer.thumbnail_url;
+    const updatedUrl = originalUrl
+      .replace("{width}", "800")
+      .replace("{height}", "500");
+      
+
+    if (contador === 0) {
+      div_row = document.createElement("div");
+      div_row.className = "row w-75 p-2 p-md-5";
+      div_col_12.appendChild(div_row);
+    }
+
+    let div_col = document.createElement("div");
+    div_col.className =
+      "h-100 col-12 col-md-4 p-2 d-flex flex-column justify-content-center align-items-center";
+    div_col.innerHTML = `
+      <a class='position-relative p-2 d-flex flex-column stream'>
+        <img src="${updatedUrl}" class="img-fluid rounded-3" alt="${streamer.title}" />
+        <span class='position-absolute top-0 start-0 px-3 py-2 bg-dark rounded-3' style='width:fit-content;'>
+          <span class='pe-1'>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M6 23H3q-.825 0-1.412-.587T1 21v-3h2v3h3zm12 0v-2h3v-3h2v3q0 .825-.587 1.413T21 23zm-6-4.5q-3 0-5.437-1.775T3 12q1.125-2.95 3.563-4.725T12 5.5t5.438 1.775T21 12q-1.125 2.95-3.562 4.725T12 18.5m0-3q1.45 0 2.475-1.025T15.5 12t-1.025-2.475T12 8.5T9.525 9.525T8.5 12t1.025 2.475T12 15.5m0-2q-.625 0-1.062-.437T10.5 12t.438-1.062T12 10.5t1.063.438T13.5 12t-.437 1.063T12 13.5M1 6V3q0-.825.588-1.412T3 1h3v2H3v3zm20 0V3h-3V1h3q.825 0 1.413.588T23 3v3z"/>
+            </svg>
+          </span>${streamer.viewer_count}
+        </span>
+      </a>
+      <div class="d-flex flex-column justify-content-center gap-2 ">
+        <h5 class="p-2 fw-medium text-white h-100 ">${streamer.title}</h5>
+        <div class='d-flex flex-wrap gap-2 align-items-center'>
+          <h6 class="fw-normal">${streamer.user_name}</h6>
+          <p class='px-3 bg-white rounded-3 text-black' style='width:fit-content;'>${streamer.language}</p>
+          </div>
+       
+      </div>`;
+    div_row.appendChild(div_col);
+
+    contador++;
+    if (contador === 3) {
+      contador = 0;
+    }
+    container_queue.appendChild(div_row_principal);
   }
 }
-
-// Agregar el contenedor principal al DOM
-container_followedStreamers.append(div_row_principal);
-}
-
 let container_recomended = document.getElementById("container-recomended");
 const token = await getTokenAuth();
 const streams = await getRecomendedStreams(token);
@@ -458,12 +513,7 @@ btn_loginnav.addEventListener("click", async (e) => {
   const validAuth = await getValidAuth(tokenLogin);
   sessionStorage.setItem("userValidated", JSON.stringify(validAuth));
 });
-let auth = "";
-if (sessionStorage.getItem("userValidated") != null) {
-  auth = JSON.parse(sessionStorage.getItem("userValidated"));
-  btn_login.innerText = auth.login;
-  btn_loginnav.innerText = auth.login;
-}
+
 let btn_streamer = document.getElementById("btn_streamers");
 btn_streamer.addEventListener("click", async (e) => {
   e.preventDefault();
@@ -485,7 +535,12 @@ btn_queue.addEventListener("click", () => {
     console.log("esta vacio");
     return;
   }
+  
   //mostrar la cola
+  showQueue();
+  container_main.style.display = "none";
+  container_title.style.display = "none";
+  container_queue.style.display = "block";
 });
 let btn_queueNav = document.getElementById("btn_queueNav");
 btn_queueNav.addEventListener("click", () => {
@@ -495,7 +550,15 @@ btn_queueNav.addEventListener("click", () => {
     return;
   }
   //mostrar la cola
+  showQueue();
 });
+
+let auth = "";
+if (sessionStorage.getItem("userValidated") != null) {
+  auth = JSON.parse(sessionStorage.getItem("userValidated"));
+  btn_login.innerText = auth.login;
+  btn_loginnav.innerText = auth.login;
+}
 //contenedores
 let container_title = document.getElementById("container-title");
 let container_user = document.getElementById("container-user");
@@ -505,3 +568,4 @@ let container_videos = document.getElementById("container-videos");
 let container_followedStreamers = document.getElementById(
   "container-followedStreamers"
 );
+let container_queue = document.getElementById("container-queue");
