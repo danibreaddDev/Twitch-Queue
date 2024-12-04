@@ -325,7 +325,7 @@ function showStreamers(followedStreamers) {
     div_col.className =
       "h-100 col-12 col-md-4 p-2 d-flex flex-column justify-content-center align-items-center";
     div_col.innerHTML = `
-    <a class='position-relative p-2 d-flex flex-column stream'>
+    <a class='position-relative p-2 d-flex flex-column stream' href='https://www.twitch.tv/${streamer.user_name}' target="_blank" rel="noopener noreferrer">
       <img src="${updatedUrl}" class="img-fluid rounded-3" alt="${streamer.title}" />
       <span class='position-absolute top-0 start-0 px-3 py-2 bg-dark rounded-3' style='width:fit-content;'>
         <span class='pe-1'>
@@ -393,7 +393,7 @@ function showQueue() {
     div_col.className =
       "h-100 col-12 col-md-4 p-2 d-flex flex-column justify-content-center align-items-center";
     div_col.innerHTML = `
-      <a class='position-relative p-2 d-flex flex-column stream'>
+      <a class='position-relative p-2 d-flex flex-column stream' href='https://www.twitch.tv/${streamer.user_name}' target="_blank" rel="noopener noreferrer">
         <img src="${updatedUrl}" class="img-fluid rounded-3" alt="${streamer.title}" />
         <span class='position-absolute top-0 start-0 px-3 py-2 bg-dark rounded-3' style='width:fit-content;'>
           <span class='pe-1'>
