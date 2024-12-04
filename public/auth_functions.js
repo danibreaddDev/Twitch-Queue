@@ -13,7 +13,7 @@ export function getTokenLogin() {
   const accessToken = hashParams.get("access_token");
   if (accessToken) {
     console.log("Token de usuario obtenido:", accessToken);
-    window.location.hash = "";
+    window.location.hash = "https://twitch-queue.vercel.app/";
     return accessToken;
   } else {
     return "";
