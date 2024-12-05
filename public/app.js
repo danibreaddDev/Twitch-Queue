@@ -321,8 +321,7 @@ function showStreamers(followedStreamers) {
     }
 
     let div_col = document.createElement("div");
-    div_col.className =
-      "h-100 col-12 col-md-4 p-2 d-flex flex-column ";
+    div_col.className = "h-100 col-12 col-md-4 p-2 d-flex flex-column ";
     div_col.innerHTML = `
     <a class='position-relative p-2 d-flex flex-column stream' href='https://www.twitch.tv/${streamer.user_name}' target="_blank" rel="noopener noreferrer">
       <img src="${updatedUrl}" class="img-fluid rounded-3" alt="${streamer.title}" />
@@ -438,6 +437,8 @@ btn_search.addEventListener("click", async (e) => {
   showClips(clips);
   container_main.style.display = "none";
   container_title.style.display = "none";
+  container_followedStreamers.style.display = "none";
+  container_queue.style.display = "none";
   container_user.style.display = "block";
   container_channel.style.display = "block";
   container_videos.style.display = "block";
@@ -474,15 +475,29 @@ let btn_streamer = document.getElementById("btn_streamers");
 btn_streamer.addEventListener("click", async (e) => {
   e.preventDefault();
   const streamers = await getStreamersByUser();
-  console.log(streamers);
   showStreamers(streamers);
   container_main.style.display = "none";
   container_title.style.display = "none";
+  container_user.style.display = "none";
+  container_channel.style.display = "none";
+  container_videos.style.display = "none";
+  container_recomended.style.display = "none";
+  container_queue.style.display = "none";
   container_followedStreamers.style.display = "block";
 });
 let btn_streamerNav = document.getElementById("btn_streamersNav");
 btn_streamerNav.addEventListener("click", async (e) => {
   e.preventDefault();
+  const streamers = await getStreamersByUser();
+  showStreamers(streamers);
+  container_main.style.display = "none";
+  container_title.style.display = "none";
+  container_user.style.display = "none";
+  container_channel.style.display = "none";
+  container_videos.style.display = "none";
+  container_recomended.style.display = "none";
+  container_queue.style.display = "none";
+  container_followedStreamers.style.display = "block";
 });
 let btn_queue = document.getElementById("btn_queue");
 btn_queue.addEventListener("click", () => {
@@ -496,8 +511,11 @@ btn_queue.addEventListener("click", () => {
   showQueue();
   container_main.style.display = "none";
   container_title.style.display = "none";
+  container_user.style.display = "none";
+  container_channel.style.display = "none";
+  container_videos.style.display = "none";
+  container_recomended.style.display = "none";
   container_followedStreamers.style.display = "none";
-
   container_queue.style.display = "block";
 });
 let btn_queueNav = document.getElementById("btn_queueNav");
@@ -509,6 +527,14 @@ btn_queueNav.addEventListener("click", () => {
   }
   //mostrar la cola
   showQueue();
+  container_main.style.display = "none";
+  container_title.style.display = "none";
+  container_user.style.display = "none";
+  container_channel.style.display = "none";
+  container_videos.style.display = "none";
+  container_recomended.style.display = "none";
+  container_followedStreamers.style.display = "none";
+  container_queue.style.display = "block";
 });
 
 let auth = "";
