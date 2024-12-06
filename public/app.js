@@ -414,6 +414,15 @@ function showQueue() {
     const button = div_col.querySelector("button");
     button.addEventListener("click", () => {
       deleteStreamerInQueue(streamer);
+      showQueue();
+      container_main.style.display = "none";
+      container_title.style.display = "none";
+      container_user.style.display = "none";
+      container_channel.style.display = "none";
+      container_videos.style.display = "none";
+      container_recomended.style.display = "none";
+      container_followedStreamers.style.display = "none";
+      container_queue.style.display = "block";
     });
     div_row.appendChild(div_col);
 
