@@ -1,5 +1,6 @@
 import { clientId, clientSecret } from "./keys.js";
 import {
+  deleteStreamerInQueue,
   getTokenLogin,
   getValidAuth,
   redirectToAuthorization,
@@ -404,11 +405,25 @@ function showQueue() {
       <div class="d-flex flex-column justify-content-center gap-2 text-white">
         <h5 class="p-2 fw-medium h-100 ">${streamer.title}</h5>
         <div class='d-flex flex-wrap gap-2 align-items-center'>
-          <h6 class="fw-normal">${streamer.user_name}</h6>
-          <p class='px-3 bg-white rounded-3 text-black' style='width:fit-content;'>${streamer.language}</p>
+          <span class="fw-normal">${streamer.user_name}</span>
+          <span class='px-3 bg-white rounded-3 text-black' style='width:fit-content;'>${streamer.language}</span>
+           <button class='btn btn-danger text-black'><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="black" d="M16.4 21L15 19.6l2.1-2.1l-2.1-2.1l1.4-1.4l2.1 2.1l2.1-2.1l1.4 1.4l-2.075 2.1L22 19.6L20.6 21l-2.1-2.075zM12 21q-3.45 0-6.012-2.287T3.05 13H5.1q.35 2.6 2.313 4.3T12 19q.275 0 .513-.012t.487-.063v2.025q-.25.025-.488.038T12 21M3 10V4h2v2.35q1.275-1.6 3.113-2.475T12 3q3.75 0 6.375 2.625T21 12h-2q0-2.925-2.037-4.962T12 5q-1.725 0-3.225.8T6.25 8H9v2zm10.35 4.75L11 12.4V7h2v4.6l1.4 1.4z"/></svg></button>
           </div>
        
       </div>`;
+    const button = div_col.querySelector("button");
+    button.addEventListener("click", () => {
+      deleteStreamerInQueue(streamer);
+      showQueue();
+      container_main.style.display = "none";
+      container_title.style.display = "none";
+      container_user.style.display = "none";
+      container_channel.style.display = "none";
+      container_videos.style.display = "none";
+      container_recomended.style.display = "none";
+      container_followedStreamers.style.display = "none";
+      container_queue.style.display = "block";
+    });
     div_row.appendChild(div_col);
 
     contador++;

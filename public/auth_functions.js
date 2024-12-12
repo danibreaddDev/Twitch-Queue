@@ -50,3 +50,8 @@ export function saveInQueue(streamerInfo) {
   }
   //error or someting
 }
+export function deleteStreamerInQueue(streamerInfo) {
+  let queue = JSON.parse(sessionStorage.getItem("StreamersQueue"));
+  let arr_queue = queue.filter((streamer) => streamer.id !== streamerInfo.id);
+  sessionStorage.setItem("StreamersQueue", JSON.stringify(arr_queue));
+}
